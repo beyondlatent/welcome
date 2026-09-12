@@ -71,6 +71,9 @@ function pageStart(t) {
       .map((i) => `<article class="card"><h3>${esc(i.name)}</h3><p class="muted">${esc(i.body)}</p><p class="quote">${esc(i.line)}</p></article>`)
       .join("")}</div></section>` +
     `<section>${h2(c.weekTitle, c.weekLead)}${cards(c.weekItems, (i) => `<article class="card"><h3>${esc(i.title)}</h3><p class="muted">${esc(i.body)}</p></article>`)}</section>` +
+    `<section>${h2(c.termsTitle, c.termsLead)}<div class="grid grid-3">${c.terms
+      .map((i) => `<article class="card"><div class="num">${esc(i.term)}</div><p class="muted" style="margin-top:.4rem">${esc(i.body)}</p></article>`)
+      .join("")}</div></section>` +
     `<section>${h2(c.pathTitle, c.pathLead)}${c.pathShortTitle ? `<p class="muted">${esc(c.pathShortTitle)}</p>` : ""}<div class="grid grid-3">${c.pathShort
       .map((p) => `<a class="card" href="${href(p.href, parse().lang)}" style="text-decoration:none"><div class="num">${esc(p.num)}</div><h3 style="margin-top:.4rem">${esc(p.title)}</h3><p class="muted">${esc(p.body)}</p></a>`)
       .join("")}</div></section>`
@@ -105,6 +108,9 @@ function pageMap(t) {
         (r) => `<article class="card layer"><div class="ln">L${esc(r.layer)}</div><div><h3>${esc(r.name)}</h3><p class="muted">${esc(r.body)}</p><p class="quote">${esc(r.line)}</p></div></article>`,
       )
       .join("")}</div></section>` +
+    `<section>${h2(c.eightTitle, c.eightLead)}<div class="scroll"><table><thead><tr><th>8D</th><th></th><th></th></tr></thead><tbody>${c.eightSteps
+      .map((s) => `<tr><th>${esc(s.d)}</th><td><strong>${esc(s.name)}</strong></td><td>${esc(s.body)}</td></tr>`)
+      .join("")}</tbody></table></div><p class="muted" style="margin-top:1rem;max-width:48rem">${esc(c.eightRule)}</p></section>` +
     `<section>${h2(c.compareTitle, c.compareLead)}<div class="scroll"><table><thead><tr><th></th><th>${esc(c.mlName)}</th><th>${esc(c.genName)}</th></tr></thead><tbody>${c.compareRows
       .map((r) => `<tr><th>${esc(r.label)}</th><td>${esc(r.ml)}</td><td>${esc(r.gen)}</td></tr>`)
       .join("")}</tbody></table></div></section>` +
