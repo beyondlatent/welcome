@@ -71,9 +71,9 @@ function pageStart(t) {
       .map((i) => `<article class="card"><h3>${esc(i.name)}</h3><p class="muted">${esc(i.body)}</p><p class="quote">${esc(i.line)}</p></article>`)
       .join("")}</div></section>` +
     `<section>${h2(c.weekTitle, c.weekLead)}${cards(c.weekItems, (i) => `<article class="card"><h3>${esc(i.title)}</h3><p class="muted">${esc(i.body)}</p></article>`)}</section>` +
-    `<section>${h2(c.pathTitle, c.pathLead)}<p class="muted">${esc(c.pathShortTitle)}</p><div class="grid grid-3">${c.pathShort
+    `<section>${h2(c.pathTitle, c.pathLead)}${c.pathShortTitle ? `<p class="muted">${esc(c.pathShortTitle)}</p>` : ""}<div class="grid grid-3">${c.pathShort
       .map((p) => `<a class="card" href="${href(p.href, parse().lang)}" style="text-decoration:none"><div class="num">${esc(p.num)}</div><h3 style="margin-top:.4rem">${esc(p.title)}</h3><p class="muted">${esc(p.body)}</p></a>`)
-      .join("")}</div><p class="muted" style="margin-top:1rem"><strong>${esc(c.pathFullTitle)}.</strong> ${esc(c.pathFull)}</p><p class="muted" style="margin-top:1rem">${esc(c.close)}</p></section>`
+      .join("")}</div></section>`
   );
 }
 function pageTools(t) {

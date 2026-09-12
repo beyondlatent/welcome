@@ -1,8 +1,8 @@
 # Display AI Briefing
 
-Samsung Display **SDV** (Vietnam) / **DSC** (China) 엔지니어용 ML · DL · Generative AI 브리핑.
+Samsung Display **SDV** (Vietnam) / **DSC** (China) 품질 엔지니어용 ML · DL · Generative AI 브리핑.
 
-- Webpage: https://paulnjune2016.github.io/welcome/
+- Webpage: https://beyondlatent.github.io/welcome/
 - Slides: [Display-AI-Briefing-SDV-DSC.pptx](./Display-AI-Briefing-SDV-DSC.pptx)
 
 Languages: English (default) · 한국어 · 中文 · Tiếng Việt  
