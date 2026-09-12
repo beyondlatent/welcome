@@ -1,4 +1,4 @@
-const ORDER = ["/", "/tools", "/map", "/ml", "/dl", "/genai", "/trends", "/manufacturing", "/playbook", "/responsible"];
+const ORDER = ["/", "/limits", "/map", "/ml", "/dl", "/genai", "/trends", "/manufacturing", "/playbook", "/responsible", "/tools"];
 const DEEP = { "/ml": "ml", "/dl": "dl", "/genai": "genai" };
 let COPIES = null;
 
@@ -42,6 +42,25 @@ function cards(items, inner) {
   return `<div class="grid grid-2">${items.map(inner).join("")}</div>`;
 }
 
+function pageLimits(t) {
+  const c = t.limits;
+  const col = (label, items) =>
+    `<div><p class="k">${esc(label)}</p><div class="grid">${items
+      .map((i) => `<article class="card"><h3>${esc(i.title)}</h3><p class="muted">${esc(i.body)}</p></article>`)
+      .join("")}</div></div>`;
+  return (
+    hero(c) +
+    prose(c.intro) +
+    `<section>${h2(c.aiTitle, c.aiLead)}<div class="grid grid-2">${col(c.canLabel, c.aiCan)}${col(c.notLabel, c.aiNot)}</div></section>` +
+    `<section>${h2(c.genTitle, c.genLead)}<div class="grid grid-2">${col(c.canLabel, c.genCan)}${col(c.notLabel, c.genNot)}</div></section>` +
+    `<section>${h2(c.deskTitle, c.deskLead)}<div class="scroll"><table><thead><tr>${c.deskHead.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${c.deskRows
+      .map((r) => `<tr><th>${esc(r.job)}</th><td>${esc(r.ai)}</td><td>${esc(r.gen)}</td></tr>`)
+      .join("")}</tbody></table></div></section>` +
+    `<section>${h2(c.testTitle)}<div class="grid">${c.testItems
+      .map((x, i) => `<div class="card" style="display:flex;gap:.75rem"><span class="num">${String(i + 1).padStart(2, "0")}</span><span>${esc(x)}</span></div>`)
+      .join("")}</div><p class="muted" style="margin-top:1.5rem">${esc(c.close)}</p></section>`
+  );
+}
 function pageStart(t) {
   const c = t.start;
   return (
@@ -206,6 +225,7 @@ function pageGuard(t) {
 
 function bodyFor(path, t) {
   if (path === "/") return pageStart(t);
+  if (path === "/limits") return pageLimits(t);
   if (path === "/tools") return pageTools(t);
   if (path === "/map") return pageMap(t);
   if (DEEP[path]) return pageDeep(t, DEEP[path]);
