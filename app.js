@@ -19,11 +19,15 @@ function el(html) {
   return d.innerHTML;
 }
 function esc(s) {
-  return String(s ?? "")
-    .replaceAll("&", "&")
-    .replaceAll("<", "<")
-    .replaceAll(">", ">")
-    .replaceAll('"', """);
+  return String(s ?? "").replace(/[&<>"']/g, function (ch) {
+    switch (ch) {
+      case "&": return "\u0026amp;";
+      case "<": return "\u0026lt;";
+      case ">": return "\u0026gt;";
+      case '"': return "\u0026quot;";
+      default: return "\u0026#39;";
+    }
+  });
 }
 function hero(c) {
   return `<header class="hero"><p class="k">${esc(c.kicker)}</p><h1>${esc(c.title)}</h1><p class="lead">${esc(c.lead)}</p></header>`;
@@ -228,9 +232,13 @@ function render() {
   burger?.addEventListener("click", () => sec.classList.toggle("open"));
 }
 
-async function boot() {
-  COPIES = await fetch("./copy.json").then((r) => r.json());
+function boot() {
+  COPIES = window.__COPIES__;
   addEventListener("hashchange", render);
-  render();
+  try { render(); }
+  catch (err) {
+    document.getElementById("app").innerHTML =
+      "<p style='padding:2rem;font-family:sans-serif'>Failed to render: " + String(err) + "</p>";
+  }
 }
 boot();
