@@ -1,4 +1,4 @@
-const ORDER = ["/", "/ml", "/dl", "/genai", "/trends", "/manufacturing", "/playbook", "/responsible"];
+const ORDER = ["/", "/tools", "/map", "/ml", "/dl", "/genai", "/trends", "/manufacturing", "/playbook", "/responsible"];
 const DEEP = { "/ml": "ml", "/dl": "dl", "/genai": "genai" };
 let COPIES = null;
 
@@ -40,6 +40,40 @@ function h2(title, lead) {
 }
 function cards(items, inner) {
   return `<div class="grid grid-2">${items.map(inner).join("")}</div>`;
+}
+
+function pageStart(t) {
+  const c = t.start;
+  return (
+    hero(c) +
+    prose(c.intro) +
+    `<section>${h2(c.whoTitle)}${cards(c.whoItems, (i) => `<article class="card"><h3>${esc(i.title)}</h3><p class="muted" style="margin-top:.4rem">${esc(i.body)}</p></article>`)}</section>` +
+    `<section>${h2(c.kindsTitle, c.kindsLead)}<div class="grid grid-3">${c.kinds
+      .map((i) => `<article class="card"><h3>${esc(i.name)}</h3><p class="muted">${esc(i.body)}</p><p class="quote">${esc(i.line)}</p></article>`)
+      .join("")}</div></section>` +
+    `<section>${h2(c.weekTitle, c.weekLead)}${cards(c.weekItems, (i) => `<article class="card"><h3>${esc(i.title)}</h3><p class="muted">${esc(i.body)}</p></article>`)}</section>` +
+    `<section>${h2(c.pathTitle, c.pathLead)}<p class="muted">${esc(c.pathShortTitle)}</p><div class="grid grid-3">${c.pathShort
+      .map((p) => `<a class="card" href="${href(p.href, parse().lang)}" style="text-decoration:none"><div class="num">${esc(p.num)}</div><h3 style="margin-top:.4rem">${esc(p.title)}</h3><p class="muted">${esc(p.body)}</p></a>`)
+      .join("")}</div><p class="muted" style="margin-top:1rem"><strong>${esc(c.pathFullTitle)}.</strong> ${esc(c.pathFull)}</p><p class="muted" style="margin-top:1rem">${esc(c.close)}</p></section>`
+  );
+}
+function pageTools(t) {
+  const c = t.tools;
+  return (
+    hero(c) +
+    prose(c.intro) +
+    `<section>${h2(c.whyTitle)}${cards(c.whyItems, (i) => `<article class="card"><h3>${esc(i.title)}</h3><p class="muted">${esc(i.body)}</p></article>`)}</section>` +
+    `<section>${h2(c.modelsTitle, c.modelsLead)}<div class="grid grid-3">${c.models
+      .map((m) => `<article class="card"><div class="num">${esc(m.also)}</div><h3>${esc(m.name)}</h3><p class="muted">${esc(m.good)}</p><p class="quote">${esc(m.quality)}</p></article>`)
+      .join("")}</div></section>` +
+    `<section>${h2(c.pickTitle)}<div class="scroll"><table><thead><tr>${c.pickHead.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${c.pickRows
+      .map((r) => `<tr><th>${esc(r.job)}</th><td>${esc(r.model)}</td><td>${esc(r.why)}</td></tr>`)
+      .join("")}</tbody></table></div></section>` +
+    `<section class="grid grid-2"><div>${h2(c.checkTitle)}<div class="grid">${c.checks
+      .map((x, i) => `<div class="card" style="display:flex;gap:.75rem"><span class="num">${String(i + 1).padStart(2, "0")}</span><span>${esc(x)}</span></div>`)
+      .join("")}</div></div><div>${h2(c.neverTitle)}<div class="grid">${c.neverItems.map((x) => `<div class="never">${esc(x)}</div>`).join("")}</div></div></section>` +
+    `<p class="muted" style="margin-top:2rem">${esc(c.close)}</p>`
+  );
 }
 
 function pageMap(t) {
@@ -149,7 +183,10 @@ function pagePlay(t) {
       .map((p) => `<article class="card pair"><div><div class="tag">${esc(c.badLabel)}</div><p class="bad">${esc(p.bad)}</p></div><div><div class="tag gen">${esc(c.goodLabel)}</div><p class="good">${esc(p.good)}</p><p class="muted">${esc(p.why)}</p></div></article>`)
       .join("")}</div></section>` +
     `<section>${h2(c.flowTitle, c.flowLead)}<ol class="jobs">${c.flow.map((f) => `<li class="card"><div class="num">${esc(f.step)}</div><h3>${esc(f.title)}</h3><p class="muted">${esc(f.body)}</p></li>`).join("")}</ol></section>` +
-    `<section>${h2(c.neverTitle)}<div class="grid">${c.neverItems.map((x) => `<div class="never">${esc(x)}</div>`).join("")}</div></section>`
+    `<section>${h2(c.neverTitle)}<div class="grid">${c.neverItems.map((x) => `<div class="never">${esc(x)}</div>`).join("")}</div></section>` +
+    (c.qualityTitle
+      ? `<section>${h2(c.qualityTitle, c.qualityLead)}${cards(c.qualityJobs, (i) => `<article class="card"><h3>${esc(i.title)}</h3><p class="muted">${esc(i.body)}</p></article>`)}</section>`
+      : "")
   );
 }
 
@@ -168,7 +205,9 @@ function pageGuard(t) {
 }
 
 function bodyFor(path, t) {
-  if (path === "/") return pageMap(t);
+  if (path === "/") return pageStart(t);
+  if (path === "/tools") return pageTools(t);
+  if (path === "/map") return pageMap(t);
   if (DEEP[path]) return pageDeep(t, DEEP[path]);
   if (path === "/trends") return pageTrends(t);
   if (path === "/manufacturing") return pageMfg(t);
